@@ -1,0 +1,22 @@
+import csv
+import serial
+arduino_port = "COM4" #serial port of Arduino
+baud = 9600 #arduino Nano runs at 9600 baud
+fileName="finaldata.csv" #name of the CSV file generated
+ser = serial.Serial(arduino_port, baud)
+print("Connected to Arduino port:" + arduino_port)
+file = open(fileName, mode='a',encoding ='utf-8')
+print("Created file")
+samples = 120 #how many samples to collect
+line = 0 #acts as a count 
+while line <= samples:
+    getData=str(ser.readline(),'utf-8')
+    data=getData[0:][:-1]
+    print(data)
+    file = open(fileName, mode ='a',encoding ='utf-8')
+    file.write(data + "\n") #write data with a newline
+    line = line+1
+
+print("Data collection complete!")
+ser.close()
+file.close()
